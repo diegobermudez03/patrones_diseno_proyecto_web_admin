@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:web_admin/features/events/domain/use_cases/get_events_use_case.dart';
-import 'package:web_admin/features/events/presentation/state/dtos/eventDTO.dart';
 import 'package:web_admin/features/events/presentation/state/events_states.dart';
 import 'package:web_admin/features/events/presentation/state/mappers.dart';
 
@@ -12,9 +11,10 @@ class EventsBloc extends Cubit<EventsState>{
     this._getEventsUseCase
   ): super(EventsInitialState());
 
-  void getEvents()async {
+  void getEvents() async {
+    await Future.delayed(Duration());
     emit(EventsRetrievingState());
-
+   
     final response = await _getEventsUseCase(null);
 
     response.fold(
