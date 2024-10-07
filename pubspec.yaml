@@ -38,6 +38,8 @@ dependencies:
   tuple: ^2.0.2
   #bloc for state management
   flutter_bloc: ^8.1.6
+  #for either
+  dartz: ^0.10.1
 
 
   # The following adds the Cupertino Icons font to your application.

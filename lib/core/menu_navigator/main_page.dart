@@ -7,7 +7,7 @@ import 'package:web_admin/core/strings/app_strings.dart';
 
 class MainPage extends StatefulWidget{
   final List<Tuple4<int, String, String, Icon>> pages = const [
-    Tuple4(1, AppStrings.manPage, "/mainPage", Icon(Icons.event)),
+    Tuple4(1, AppStrings.manPage, "/mainPage", Icon(Icons.home)),
     Tuple4(2, AppStrings.events, "/events", Icon(Icons.event)),
   ];
 
@@ -54,7 +54,10 @@ class _MainPageState extends State<MainPage> {
   void _navigateTo(String routeName) async {
     if (!_isNavigating && _navigatorKey.currentState != null) {
         _isNavigating = true;
-         await _navigatorKey.currentState!.pushNamed(routeName);
+        while(_navigatorKey.currentState?.canPop() ?? false) {
+          _navigatorKey.currentState!.pop();
+        }
+        await _navigatorKey.currentState!.pushNamed(routeName);
         _isNavigating = false;
     }
   }
