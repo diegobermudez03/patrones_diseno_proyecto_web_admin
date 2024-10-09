@@ -47,7 +47,7 @@ class EventsPage extends StatelessWidget {
               );
             }
             case EventsRetrievingError _ :
-              return const Center(child: Text(AppStrings.APIerror),); 
+              return const Center(child: Text(AppStrings.apiError),); 
             case EventsInitialState():{
               provider.getEvents();
               return Container();

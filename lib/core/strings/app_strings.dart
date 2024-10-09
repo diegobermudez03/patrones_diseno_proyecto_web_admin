@@ -8,5 +8,9 @@ class AppStrings{
   static const startDate = "Fecha inicial";
   static const endDate = "Fecha final";
   static const address = "Direccion";
-  static const APIerror = "Lo sentimos, sucedio un error con la API";
+  static const apiError = "Lo sentimos, sucedio un error con la API";
+
+  static const loadExcel = "Cargar desde Excel";
+
+  static const mustSelectFile = "Debes seleccionar un archivo Excel";
 }

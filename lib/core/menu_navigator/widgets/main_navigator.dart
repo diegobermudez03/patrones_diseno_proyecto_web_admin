@@ -4,7 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:web_admin/features/events/presentation/pages/events_page.dart';
 import 'package:web_admin/features/events/presentation/state/events_bloc.dart';
 import 'package:web_admin/features/initial_page/presentation/pages/initial_page.dart';
-import 'package:web_admin/features/initial_page/presentation/state/initial_page_state.dart';
+import 'package:web_admin/features/initial_page/presentation/state/initial_page_bloc.dart';
 
 class MainNavigator extends StatelessWidget{
   final GlobalKey<NavigatorState> _navigatorKey;
@@ -28,8 +28,8 @@ class MainNavigator extends StatelessWidget{
                     break;
                   default:
                     builder = (BuildContext _) => 
-                    BlocProvider<InitialPageState>(
-                      create: (context) => GetIt.instance.get<InitialPageState>(),
+                    BlocProvider<InitialPageBloc>(
+                      create: (context) => GetIt.instance.get<InitialPageBloc>(),
                       child: InitialPage(),
                     );
                 }
