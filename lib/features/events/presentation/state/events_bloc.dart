@@ -26,5 +26,9 @@ class EventsBloc extends Cubit<EventsState>{
         emit(state);
       });
   }
+
+  void checkEvent(int eventId) async{
+    
+  }
   
 }

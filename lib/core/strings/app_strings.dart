@@ -13,6 +13,7 @@ class AppStrings{
 
   static const loadExcel = "Cargar desde Excel";
   static const excelUploaded = "El excel fue subido, se registraron nuevos registros: ";
+  static const openEvent = "Ver evento";
 
   static const mustSelectFile = "Debes seleccionar un archivo Excel";
 }

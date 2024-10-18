@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:web_admin/core/strings/app_strings.dart';
+import 'package:web_admin/features/events/presentation/pages/event_page.dart';
 import 'package:web_admin/features/events/presentation/state/events_bloc.dart';
 import 'package:web_admin/features/events/presentation/state/events_states.dart';
 import 'package:web_admin/features/events/presentation/widgets/event_tile.dart';
@@ -17,7 +18,6 @@ class EventsPage extends StatelessWidget {
         builder: (context, state) {
           const Text appTitle = Text(AppStrings.appTitle);
           final provider = BlocProvider.of<EventsBloc>(context);
-          print("state is ${state}");
           switch(state){
             case EventsRetrievingState _: 
                return const Column(
@@ -40,7 +40,11 @@ class EventsPage extends StatelessWidget {
                   ),
                   SingleChildScrollView(
                     child: Column(
-                      children: eventsState.events.map((event) => EventTile(event)).toList(),
+                      children: eventsState.events.map((event) => EventTile(
+                          event: event,
+                          callback: ()=>goToEvent(event.eventId, provider, context),
+                        )
+                      ).toList(),
                     ),
                   )
                 ],
@@ -55,6 +59,14 @@ class EventsPage extends StatelessWidget {
           }
         },
       ),
+    );
+  }
+
+
+  void goToEvent(int eventId,EventsBloc provider, BuildContext context){
+    provider.checkEvent(eventId);
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (conxt)=>EventPage())
     );
   }
 }

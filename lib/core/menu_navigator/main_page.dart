@@ -11,7 +11,9 @@ class MainPage extends StatefulWidget{
     Tuple4(2, AppStrings.events, "/events", Icon(Icons.event)),
   ];
 
-  const MainPage();
+  const MainPage({
+    super.key
+  });
 
   @override
   State<MainPage> createState() => _MainPageState();
@@ -57,7 +59,7 @@ class _MainPageState extends State<MainPage> {
         while(_navigatorKey.currentState?.canPop() ?? false) {
           _navigatorKey.currentState!.pop();
         }
-        await _navigatorKey.currentState!.pushNamed(routeName);
+        _navigatorKey.currentState!.pushNamed(routeName);
         _isNavigating = false;
     }
   }

@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:web_admin/core/strings/app_strings.dart';
 import 'package:web_admin/features/events/presentation/state/dtos/eventDTO.dart';
 
 class EventTile extends StatelessWidget{
 
   final EventDTO event;
+  final void Function() callback;
 
-  EventTile(this.event);
+  const EventTile({
+    super.key,
+    required this.event, 
+    required this.callback
+});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +21,11 @@ class EventTile extends StatelessWidget{
           Text(event.eventName),
           Text(event.startDate.toString()),
           Text(event.endDate.toString()),
-          Text(event.address)
+          Text(event.address),
+          TextButton(
+            onPressed: callback, 
+            child: const Text(AppStrings.openEvent)
+          )
         ],
       ),
     );
