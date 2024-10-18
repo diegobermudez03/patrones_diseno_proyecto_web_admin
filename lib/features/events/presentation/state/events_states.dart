@@ -1,16 +1,15 @@
 import 'package:web_admin/features/events/presentation/state/dtos/eventDTO.dart';
 
-sealed class EventsState{}
+sealed class EventsState {}
 
-class EventsInitialState extends EventsState{}
+class EventsInitialState extends EventsState {}
 
-
-class EventsRetrievedState extends EventsState{
+class EventsRetrievedState extends EventsState {
   final List<EventDTO> events;
 
   EventsRetrievedState(this.events);
 }
 
-class EventsRetrievingState extends EventsState{}
+class EventsRetrievingState extends EventsState {}
 
-class EventsRetrievingError extends EventsState{}
+class EventsRetrievingError extends EventsState {}
