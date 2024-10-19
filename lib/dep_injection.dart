@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:web_admin/features/events/domain/use_cases/get_event_users_use_case.dart';
 import 'package:web_admin/features/events/domain/use_cases/get_events_use_case.dart';
 import 'package:web_admin/features/events/presentation/state/event_bloc.dart';
 import 'package:web_admin/features/events/presentation/state/events_bloc.dart';
@@ -20,9 +21,13 @@ void initDependencies() {
   //INJECTING EVENTS DEPENDENCIES
   //register events use cases
   inst.registerLazySingleton<GetEventsUseCase>(() => GetEventsUseCase());
+  inst.registerLazySingleton<GetEventUsersUseCase>(()=> GetEventUsersUseCase());
 
   //events bloc
-  inst.registerFactory<EventsBloc>(
-      () => EventsBloc(inst.get<GetEventsUseCase>()));
-  inst.registerFactory<EventBloc>(() => EventBloc());
+  inst.registerFactory<EventsBloc>(() => EventsBloc(
+    inst.get<GetEventsUseCase>()
+  ));
+  inst.registerFactory<EventBloc>(() => EventBloc(
+    inst.get<GetEventUsersUseCase>()
+  ));
 }

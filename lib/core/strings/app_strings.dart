@@ -14,6 +14,13 @@ class AppStrings{
   static const loadExcel = "Cargar desde Excel";
   static const excelUploaded = "El excel fue subido, se registraron nuevos registros: ";
   static const openEvent = "Ver evento";
-
+  static const email = "Email";
+  static const state = "Estado";
+  static const currentState = "Donde esta";
+  static const registered = "Registrados";
+  static const inviteRemaining = "Invitar no invitados";
+  static const invite = "Invitar";
+  static const registeredState = "REGISTRADO";
+  static const errorRetrievingUsers = "Hubo un error obteniendo los usuarios";
   static const mustSelectFile = "Debes seleccionar un archivo Excel";
 }

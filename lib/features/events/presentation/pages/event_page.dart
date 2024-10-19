@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:web_admin/core/strings/app_strings.dart';
 import 'package:web_admin/features/events/presentation/state/event_bloc.dart';
 import 'package:web_admin/features/events/presentation/state/event_states.dart';
+import 'package:web_admin/features/events/presentation/widgets/event_users_list.dart';
 import 'package:web_admin/shared/widgets/app_bar.dart';
 
 class EventPage extends StatelessWidget {
@@ -14,14 +16,30 @@ class EventPage extends StatelessWidget {
       appBar: getAppBar(),
       body: BlocBuilder<EventBloc, EventState>(builder: (context, state) {
         final provider = BlocProvider.of<EventBloc>(context);
-        switch (state) {
-          case EventInitialState _:
-            provider.searchEvent(eventId);
-            break;
-          case SearchingEventState _:
-            return const CircularProgressIndicator();
+
+        if(state is EventInitialState){
+          provider.searchEvent(eventId);
         }
-        return Container();
+        //first part, the users list
+        final Widget userList = switch(state){
+          SearchingEventState _ => const CircularProgressIndicator(),
+          EventUsersRetrievedState s => EventUsersList(users: s.users),
+          EventFailureState _ => const Text(AppStrings.errorRetrievingUsers),
+          EventState _ => const CircularProgressIndicator(),
+        };
+
+        final Widget logsHistory = switch(state){
+          SearchingEventState _ => const CircularProgressIndicator(),
+          EventState _ => const CircularProgressIndicator(),
+        };
+
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            userList,
+            logsHistory
+          ],
+        );
       }),
     );
   }
