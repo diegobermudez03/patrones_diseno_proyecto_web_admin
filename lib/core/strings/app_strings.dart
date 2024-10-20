@@ -25,7 +25,10 @@ class AppStrings{
   static const entered = "ingreso";
   static const exited = "salio";
   static const atTime = " a las ";
+  static const phone = "Numero";
+  static const action = "Accion";
   static const hasBeenInvited = " ha sido invitado";
+  static const ok = "Ok";
   static const nUsersInvited = " usuarios se han invitado";
   static const errorRetrievingUsers = "Hubo un error obteniendo los usuarios";
   static const mustSelectFile = "Debes seleccionar un archivo Excel";

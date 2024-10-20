@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:web_admin/core/color_theme.dart';
 import 'package:web_admin/core/menu_navigator/main_page.dart';
 import 'package:web_admin/dep_injection.dart';
 
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: MaterialTheme.lightHighContrastScheme(),
         useMaterial3: true,
       ),
       home: const MainPage(),
