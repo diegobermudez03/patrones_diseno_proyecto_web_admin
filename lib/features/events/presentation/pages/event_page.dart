@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:web_admin/core/strings/app_strings.dart';
 import 'package:web_admin/features/events/presentation/state/event_bloc.dart';
 import 'package:web_admin/features/events/presentation/state/event_logs_bloc.dart';
@@ -27,10 +26,28 @@ class EventPage extends StatelessWidget {
             if(state is EventInitialState){
               provider.searchEvent(eventId);
             }
-            //first part, the users list
+            if (state is EventUsersInvitedState || state is EventUserInvitedState){
+              String phrase = switch(state){
+                EventUsersInvitedState s => '${s.nInvited} ${AppStrings.nUsersInvited}',
+                EventUserInvitedState s => '${s.email} ${AppStrings.hasBeenInvited}',
+                EventState() => '',
+              };
+              Future.microtask(() {
+                showDialog(
+                  context: context,
+                  builder: (subContext) {
+                    return AlertDialog(
+                      content: Text(phrase),
+                    );
+                  }
+                );
+              });
+            }
             return switch(state){
               SearchingEventState _ => const CircularProgressIndicator(),
-              EventUsersRetrievedState s => EventUsersList(users: s.users),
+              EventUsersRetrievedState s => EventUsersList(users: s.users, eventId: eventId,),
+              EventUsersInvitedState s => EventUsersList(users: s.users, eventId: eventId,),
+              EventUserInvitedState s => EventUsersList(users: s.users, eventId: eventId,),
               EventFailureState _ => const Text(AppStrings.errorRetrievingUsers),
               EventState _ => const CircularProgressIndicator(),
             };

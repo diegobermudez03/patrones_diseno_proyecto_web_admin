@@ -3,6 +3,8 @@ import 'package:web_admin/features/events/domain/use_cases/connect_live_logs_use
 import 'package:web_admin/features/events/domain/use_cases/get_event_logs_use_case.dart';
 import 'package:web_admin/features/events/domain/use_cases/get_event_users_use_case.dart';
 import 'package:web_admin/features/events/domain/use_cases/get_events_use_case.dart';
+import 'package:web_admin/features/events/domain/use_cases/invite_user_use_case.dart';
+import 'package:web_admin/features/events/domain/use_cases/invite_users_use_case.dart';
 import 'package:web_admin/features/events/presentation/state/event_bloc.dart';
 import 'package:web_admin/features/events/presentation/state/event_logs_bloc.dart';
 import 'package:web_admin/features/events/presentation/state/events_bloc.dart';
@@ -27,13 +29,17 @@ void initDependencies() {
   inst.registerLazySingleton<GetEventUsersUseCase>(()=> GetEventUsersUseCase());
   inst.registerLazySingleton<GetEventLogsUseCase>(() => GetEventLogsUseCase());
   inst.registerLazySingleton<ConnectLiveLogsUseCase>(() => ConnectLiveLogsUseCase());
+  inst.registerLazySingleton<InviteUsersUseCase>(()=> InviteUsersUseCase());
+  inst.registerLazySingleton<InviteUserUseCase>(()=> InviteUserUseCase());
 
   //events bloc
   inst.registerFactory<EventsBloc>(() => EventsBloc(
     inst.get<GetEventsUseCase>()
   ));
   inst.registerFactory<EventBloc>(() => EventBloc(
-    inst.get<GetEventUsersUseCase>()
+    inst.get<GetEventUsersUseCase>(),
+    inst.get<InviteUsersUseCase>(),
+    inst.get<InviteUserUseCase>(),
   ));
   inst.registerFactory<EventLogsBloc>(()=> EventLogsBloc(
     inst.get<GetEventLogsUseCase>(), 

@@ -13,3 +13,18 @@ class EventUsersRetrievedState extends EventState{
 
   EventUsersRetrievedState(this.users);
 }
+
+
+class EventUsersInvitedState extends EventState{
+  final List<EventUserDto> users;
+  final int nInvited;
+
+  EventUsersInvitedState(this.users, this.nInvited);
+}
+
+class EventUserInvitedState extends EventState{
+  final List<EventUserDto> users;
+  final String email;
+
+  EventUserInvitedState(this.users, this.email);
+}

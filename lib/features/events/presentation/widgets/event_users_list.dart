@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:web_admin/core/strings/app_strings.dart';
 import 'package:web_admin/features/events/presentation/state/dtos/event_user_dto.dart';
+import 'package:web_admin/features/events/presentation/state/event_bloc.dart';
 
 class EventUsersList extends StatelessWidget{
 
   final List<EventUserDto> users;
+  final int eventId;
 
   EventUsersList({
     super.key,
-    required this.users
+    required this.users,
+    required this.eventId,
   });
 
   @override
@@ -18,7 +22,7 @@ class EventUsersList extends StatelessWidget{
         children: [
           Text(AppStrings.registered),
           TextButton(
-            onPressed: (){}, 
+            onPressed: ()=>inviteAll(context, eventId), 
             child: const Text(AppStrings.inviteRemaining)
           ),
           const Row(
@@ -37,7 +41,10 @@ class EventUsersList extends StatelessWidget{
                     Text(user.email), 
                     Text(user.phone),
                     Text(user.stateName),
-                    if(user.stateName == AppStrings.registeredState)TextButton(onPressed: (){}, child: Text(AppStrings.invite)),
+                    if(user.stateName == AppStrings.registeredState)TextButton(
+                      onPressed: ()=>inviteUser(context,user.occasionId, eventId ), 
+                      child: Text(AppStrings.invite)
+                    ),
                     Text('${user.isInside}')
                   ],),
                 );
@@ -47,6 +54,14 @@ class EventUsersList extends StatelessWidget{
         ],
       ),
     );
+  }
+
+  void inviteAll(BuildContext context, int eventId){
+    BlocProvider.of<EventBloc>(context).inviteAll(eventId);
+  }
+
+  void inviteUser(BuildContext context, int occasionId, int eventId){
+    BlocProvider.of<EventBloc>(context).inviteUsers(occasionId, eventId);
   }
 
 
