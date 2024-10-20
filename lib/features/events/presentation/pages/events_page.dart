@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:web_admin/core/strings/app_strings.dart';
 import 'package:web_admin/features/events/presentation/pages/event_page.dart';
 import 'package:web_admin/features/events/presentation/state/event_bloc.dart';
+import 'package:web_admin/features/events/presentation/state/event_logs_bloc.dart';
 import 'package:web_admin/features/events/presentation/state/events_bloc.dart';
 import 'package:web_admin/features/events/presentation/state/events_states.dart';
 import 'package:web_admin/features/events/presentation/widgets/event_tile.dart';
@@ -72,8 +73,11 @@ class EventsPage extends StatelessWidget {
 
   void goToEvent(int eventId, EventsBloc provider, BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (conxt) => BlocProvider(
-              create: (context) => GetIt.instance.get<EventBloc>(),
+        builder: (conxt) => MultiBlocProvider(
+              providers: [
+                BlocProvider(create: (context) => GetIt.instance.get<EventBloc>()),
+                BlocProvider(create: (context) => GetIt.instance.get<EventLogsBloc>()),
+              ],
               child: EventPage(
                 eventId: eventId,
               ),

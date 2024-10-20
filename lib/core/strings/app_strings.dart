@@ -21,6 +21,10 @@ class AppStrings{
   static const inviteRemaining = "Invitar no invitados";
   static const invite = "Invitar";
   static const registeredState = "REGISTRADO";
+  static const logHistory = "Historial en vivo";
+  static const entered = "ingreso";
+  static const exited = "salio";
+  static const atTime = " a las ";
   static const errorRetrievingUsers = "Hubo un error obteniendo los usuarios";
   static const mustSelectFile = "Debes seleccionar un archivo Excel";
 }
