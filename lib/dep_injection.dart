@@ -41,7 +41,9 @@ void initDependencies() {
   inst.registerLazySingleton<GetEventsUseCase>(() => GetEventsUseCase(
     inst.get<EventsRepo>()
   ));
-  inst.registerLazySingleton<GetEventUsersUseCase>(()=> GetEventUsersUseCase());
+  inst.registerLazySingleton<GetEventUsersUseCase>(()=> GetEventUsersUseCase(
+    inst.get<EventsRepo>()
+  ));
   inst.registerLazySingleton<GetEventLogsUseCase>(() => GetEventLogsUseCase());
   inst.registerLazySingleton<ConnectLiveLogsUseCase>(() => ConnectLiveLogsUseCase());
   inst.registerLazySingleton<InviteUsersUseCase>(()=> InviteUsersUseCase());

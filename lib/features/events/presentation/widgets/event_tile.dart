@@ -69,7 +69,7 @@ class EventTile extends StatelessWidget {
               child: Text(
                 event.address,
                 style: TextStyle(
-                  color: colorScheme.onTertiaryContainer, // Use tertiary color for the address
+                  color: colorScheme.onSurfaceVariant, // Use tertiary color for the address
                 ),
                 overflow: TextOverflow.ellipsis,
               ),

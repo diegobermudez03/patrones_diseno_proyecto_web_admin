@@ -36,7 +36,7 @@ class EventUserTile extends StatelessWidget {
                 child: Text(
                   user.email,
                   style: TextStyle(
-                    color: colorScheme.onPrimaryFixed, // Use onPrimaryFixedDim for text color
+                    color: colorScheme.onSurface, // Use onPrimaryFixedDim for text color
                     fontSize: 14,
                   ),
                   overflow: TextOverflow.ellipsis,
@@ -47,7 +47,7 @@ class EventUserTile extends StatelessWidget {
                 child: Text(
                   user.phone,
                   style: TextStyle(
-                    color: colorScheme.onPrimaryFixedVariant, // Use onPrimaryFixedVariant for text color
+                    color: colorScheme.onPrimaryFixed, // Use onPrimaryFixedVariant for text color
                     fontSize: 14,
                   ),
                   overflow: TextOverflow.ellipsis,
@@ -58,7 +58,7 @@ class EventUserTile extends StatelessWidget {
                 child: Text(
                   user.stateName.isEmpty ? '' : user.stateName,
                   style: TextStyle(
-                    color: colorScheme.onTertiaryContainer, // Use onTertiaryContainer for state name
+                    color: colorScheme.onSurfaceVariant, // Use onTertiaryContainer for state name
                     fontSize: 14,
                   ),
                   overflow: TextOverflow.ellipsis,
