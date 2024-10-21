@@ -44,6 +44,8 @@ dependencies:
   file_picker: ^8.1.2
   #for http requests 
   http: ^1.2.2
+  #websocket 
+  web_socket_channel: ^3.0.1
 
 
   # The following adds the Cupertino Icons font to your application.
