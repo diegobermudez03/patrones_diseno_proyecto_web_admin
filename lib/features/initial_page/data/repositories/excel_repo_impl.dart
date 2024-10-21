@@ -14,18 +14,15 @@ class ExcelRepoImpl implements ExcelRepo{
 
   @override
   Future<Either<Failure, int>> uploadExcel(Uint8List file) async{
-
-    // Create a MultipartRequest object
     try{
       final url = Uri.http(uri, '/occasions');
       final request = http.MultipartRequest("POST", url);
 
       request.files.add(
       http.MultipartFile.fromBytes(
-        'file', // This is the field name expected by your Go API
+        'file', 
         file,
-        filename: 'upload.xlsx', // Optional: provide a filename
-        //contentType: http.MediaType('application', 'vnd.openxmlformats-officedocument.spreadsheetml.sheet'),
+        filename: 'upload.xlsx', 
         ),
       );
       final response = await request.send();

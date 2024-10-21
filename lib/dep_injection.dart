@@ -1,4 +1,6 @@
 import 'package:get_it/get_it.dart';
+import 'package:web_admin/features/events/data/repositories/events_repo_impl.dart';
+import 'package:web_admin/features/events/domain/repositories/events_repo.dart';
 import 'package:web_admin/features/events/domain/use_cases/connect_live_logs_use_case.dart';
 import 'package:web_admin/features/events/domain/use_cases/get_event_logs_use_case.dart';
 import 'package:web_admin/features/events/domain/use_cases/get_event_users_use_case.dart';
@@ -32,8 +34,13 @@ void initDependencies() {
       () => InitialPageBloc(inst.get<UploadExcelUseCase>()));
 
   //INJECTING EVENTS DEPENDENCIES
+  //REPOS
+  inst.registerLazySingleton<EventsRepo>(()=> EventsRepoImpl(uri));
+
   //register events use cases
-  inst.registerLazySingleton<GetEventsUseCase>(() => GetEventsUseCase());
+  inst.registerLazySingleton<GetEventsUseCase>(() => GetEventsUseCase(
+    inst.get<EventsRepo>()
+  ));
   inst.registerLazySingleton<GetEventUsersUseCase>(()=> GetEventUsersUseCase());
   inst.registerLazySingleton<GetEventLogsUseCase>(() => GetEventLogsUseCase());
   inst.registerLazySingleton<ConnectLiveLogsUseCase>(() => ConnectLiveLogsUseCase());
