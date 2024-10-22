@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:web_admin/core/strings/app_strings.dart';
 import 'package:web_admin/features/events/domain/use_cases/get_event_users_use_case.dart';
@@ -58,13 +59,18 @@ class EventBloc extends Cubit<EventState> {
 
   void inviteUsers(int occasionId, int eventId) async{
     await Future.delayed(Duration.zero);
+    final String userEmail = switch(state){
+      EventUsersInvitedState s => s.users.where((dto)=> dto.occasionId == occasionId).first.email,
+      EventUserInvitedState s => s.users.where((dto)=> dto.occasionId == occasionId).first.email,
+      EventState _ => ""
+    };
     emit(SearchingEventState());
 
-    final response =  await _inviteUserUseCase(occasionId);
-    String email = "";
+    final response =  await _inviteUserUseCase(Tuple2(eventId, occasionId));
+    String email = userEmail;
     response.fold(
       (f)=> email = "", 
-      (n)=> email = n,
+      (n){},
     );
     
     final responseNewUsers = await _getEventUsersUseCase(eventId);

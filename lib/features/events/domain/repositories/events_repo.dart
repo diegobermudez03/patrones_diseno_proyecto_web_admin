@@ -8,5 +8,7 @@ abstract class EventsRepo{
   Future<Either<Failure, List<EventEntity>>> getAllEvents();
   Future<Either<Failure, List<OccasionEntity>>> getOccasionsFromEvent(int eventId);
   Future<Either<Failure, List<EventLogEntity>>> getAllLogs(int eventId);
+  Future<Either<Failure, int>> inviteUserToEvent(int eventId, int occasionId);
+  Future<Either<Failure, int>> inviteAllUsers(int eventId);
   Stream<EventLogEntity> connectLogs(int eventId);
 }

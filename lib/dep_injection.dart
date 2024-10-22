@@ -50,8 +50,12 @@ void initDependencies() {
   inst.registerLazySingleton<ConnectLiveLogsUseCase>(() => ConnectLiveLogsUseCase(
     inst.get<EventsRepo>()
   ));
-  inst.registerLazySingleton<InviteUsersUseCase>(()=> InviteUsersUseCase());
-  inst.registerLazySingleton<InviteUserUseCase>(()=> InviteUserUseCase());
+  inst.registerLazySingleton<InviteUsersUseCase>(()=> InviteUsersUseCase(
+    inst.get<EventsRepo>()
+  ));
+  inst.registerLazySingleton<InviteUserUseCase>(()=> InviteUserUseCase(
+    inst.get<EventsRepo>()
+  ));
 
   //events bloc
   inst.registerFactory<EventsBloc>(() => EventsBloc(

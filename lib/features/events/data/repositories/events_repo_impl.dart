@@ -31,6 +31,7 @@ class EventsRepoImpl implements EventsRepo{
         list.map((json)=> jsonToEventEntity(json)).toList()
       );
     }catch(error){
+      print(error);
       return Left(APIFailure());
     }
   }
@@ -68,6 +69,53 @@ class EventsRepoImpl implements EventsRepo{
       return Left(APIFailure());
     }
   }
+  
+  @override
+  Future<Either<Failure, int>> inviteUserToEvent(int eventId, int occasionId) async{
+    try{
+      final url = Uri.http(uri, '/events/$eventId/invite');
+
+      Map<String, dynamic> body = {
+        "user_x_event" : [occasionId]
+      };
+
+      final response = await http.post(
+        url, 
+        headers: {
+          'content-type' : 'application/json'
+        },
+        body: jsonEncode(body)
+      );
+      if(response.statusCode < 200 || response.statusCode >= 300){
+        return Left(APIFailure());
+      }
+      final responseBody = jsonDecode(response.body) as Map<String, dynamic>;
+      return Right(
+        responseBody["number"]
+      );
+    }catch(error){
+      return Left(APIFailure());
+    }
+  }
+  
+  @override
+  Future<Either<Failure, int>> inviteAllUsers(int eventId) async {
+    try{
+      final url = Uri.http(uri, '/events/$eventId/invite/all');
+
+      final response = await http.post(url);
+      if(response.statusCode < 200 || response.statusCode >= 300){
+        return Left(APIFailure());
+      }
+      final responseBody = jsonDecode(response.body) as Map<String, dynamic>;
+      return Right(
+        responseBody["number"]
+      );
+    }catch(error){
+      return Left(APIFailure());
+    }
+  }
+
 
   @override
   Stream<EventLogEntity> connectLogs(int eventId)async* {
