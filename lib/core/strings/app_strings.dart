@@ -32,4 +32,5 @@ class AppStrings{
   static const nUsersInvited = " usuarios se han invitado";
   static const errorRetrievingUsers = "Hubo un error obteniendo los usuarios";
   static const mustSelectFile = "Debes seleccionar un archivo Excel";
+  static const sessions = "Sesiones";
 }

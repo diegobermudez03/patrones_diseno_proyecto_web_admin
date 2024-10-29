@@ -8,6 +8,7 @@ class MainPage extends StatefulWidget {
   final List<Tuple4<int, String, String, Icon>> pages = const [
     Tuple4(1, AppStrings.manPage, "/mainPage", Icon(Icons.home)),
     Tuple4(2, AppStrings.events, "/events", Icon(Icons.event)),
+    Tuple4(3, AppStrings.sessions, '/sessions', Icon(Icons.login)),
   ];
 
   const MainPage({super.key});

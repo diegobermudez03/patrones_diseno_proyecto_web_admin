@@ -1,10 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:web_admin/core/strings/app_strings.dart';
 import 'package:web_admin/features/events/domain/use_cases/get_event_users_use_case.dart';
 import 'package:web_admin/features/events/domain/use_cases/invite_user_use_case.dart';
 import 'package:web_admin/features/events/domain/use_cases/invite_users_use_case.dart';
-import 'package:web_admin/features/events/presentation/state/dtos/event_user_dto.dart';
 import 'package:web_admin/features/events/presentation/state/event_states.dart';
 import 'package:web_admin/features/events/presentation/state/mappers.dart';
 
