@@ -5,10 +5,12 @@ import 'package:web_admin/features/sessions/domain/entities/session_entity.dart'
 class DisabledSessionTile extends StatelessWidget{
 
   final SessionEntity session;
+  final void Function(int, bool) callback;
 
   const DisabledSessionTile({
     super.key,
-    required this.session
+    required this.session,
+    required this.callback,
   });
 
   @override
@@ -21,7 +23,7 @@ class DisabledSessionTile extends StatelessWidget{
           Text(sentence),
           TextButton(
             style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.green)),
-            onPressed: (){}, 
+            onPressed: ()=>callback(session.id, true), 
             child: Text(AppStrings.enable)
           )
         ],

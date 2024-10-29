@@ -7,10 +7,12 @@ import 'package:web_admin/features/sessions/presentation/widgets/enabled_session
 class EnabledSessionsWidget extends StatelessWidget{
 
   final List<SessionEntity> sessions;
+  final void Function(int, bool) callback;
   
   EnabledSessionsWidget({
     super.key,
-    required this.sessions
+    required this.sessions,
+    required this.callback
   });
 
   @override
@@ -30,7 +32,7 @@ class EnabledSessionsWidget extends StatelessWidget{
           ),
           SingleChildScrollView(
             child: Column(
-              children: sessions.map((s)=>EnabledSessionTile(session: s)).toList(),
+              children: sessions.map((s)=>EnabledSessionTile(session: s, callback: callback,)).toList(),
             ),
           )
         ],

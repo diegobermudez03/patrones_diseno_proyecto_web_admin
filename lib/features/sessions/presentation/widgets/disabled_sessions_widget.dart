@@ -5,10 +5,12 @@ import 'package:web_admin/features/sessions/presentation/widgets/disabled_sessio
 
 class DisabledSessionsWidget extends StatelessWidget{
   final List<SessionEntity> sessions;
+  final void Function(int, bool) callback;
   
   DisabledSessionsWidget({
     super.key,
-    required this.sessions
+    required this.sessions,
+    required this.callback,
   });
 
   @override
@@ -19,7 +21,7 @@ class DisabledSessionsWidget extends StatelessWidget{
           const Text(AppStrings.requests),
           SingleChildScrollView(
             child: Column(
-              children: sessions.map((s)=>DisabledSessionTile(session: s)).toList(),
+              children: sessions.map((s)=>DisabledSessionTile(session: s, callback: callback,)).toList(),
             ),
           )
         ],

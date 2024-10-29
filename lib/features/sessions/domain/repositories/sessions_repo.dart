@@ -4,5 +4,6 @@ import 'package:web_admin/features/sessions/domain/entities/session_entity.dart'
 
 abstract class SessionsRepo{
   Future<Either<Failure, List<SessionEntity>>> getSessions();
+  Future<Either<Failure, bool>> actionSession(Tuple2<int, bool> param);
 
 }

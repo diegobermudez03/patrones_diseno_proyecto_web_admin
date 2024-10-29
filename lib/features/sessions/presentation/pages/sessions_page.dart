@@ -21,12 +21,12 @@ class SessionsPage extends StatelessWidget{
           provider.getSessions();
         }
         final Widget enabledSessions = switch(state){
-          SessionsRetrievedState(enabledSessions: final en) => EnabledSessionsWidget(sessions: en),
+          SessionsRetrievedState(enabledSessions: final en) => EnabledSessionsWidget(sessions: en, callback: actionOnSession(provider),),
           SessionsRetrievingFailure() => const Center(child: Text(AppStrings.apiError)),
           SessionsState _ => const Center(child: CircularProgressIndicator())
         };
         final Widget disabledSessions = switch(state){
-          SessionsRetrievedState(disabledSessions: final dis) => DisabledSessionsWidget(sessions: dis),
+          SessionsRetrievedState(disabledSessions: final dis) => DisabledSessionsWidget(sessions: dis, callback: actionOnSession(provider),),
           SessionsRetrievingFailure() => const Center(child: Text(AppStrings.apiError)),
           SessionsState _ => const Center(child: CircularProgressIndicator())
         };
@@ -44,5 +44,11 @@ class SessionsPage extends StatelessWidget{
         );
       })
     );
+  }
+
+
+  void Function(int, bool) actionOnSession(SessionsBloc provider){
+    final void Function(int, bool) callback = (id, enable)=>provider.changeSession(id, enable);
+    return callback;
   }
 }

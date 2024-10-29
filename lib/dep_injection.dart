@@ -16,6 +16,7 @@ import 'package:web_admin/features/initial_page/domain/use_cases/upload_excel_us
 import 'package:web_admin/features/initial_page/presentation/state/initial_page_bloc.dart';
 import 'package:web_admin/features/sessions/data/repositories/sessions_repo_impl.dart';
 import 'package:web_admin/features/sessions/domain/repositories/sessions_repo.dart';
+import 'package:web_admin/features/sessions/domain/use_cases/change_session_use_case.dart';
 import 'package:web_admin/features/sessions/domain/use_cases/get_sessions_use_case.dart';
 import 'package:web_admin/features/sessions/presentation/state/sessions_bloc.dart';
 
@@ -85,9 +86,13 @@ void initDependencies() {
   inst.registerLazySingleton<GetSessionsUseCase>(()=> GetSessionsUseCase(
     inst.get<SessionsRepo>()
   ));
+  inst.registerLazySingleton<ChangeSessionUseCase>(()=> ChangeSessionUseCase(
+    inst.get<SessionsRepo>()
+  ));
 
   //sessions bloc
   inst.registerFactory<SessionsBloc>(()=> SessionsBloc(
-    inst.get<GetSessionsUseCase>()
+    inst.get<GetSessionsUseCase>(),
+    inst.get<ChangeSessionUseCase>(),
   ));
 }

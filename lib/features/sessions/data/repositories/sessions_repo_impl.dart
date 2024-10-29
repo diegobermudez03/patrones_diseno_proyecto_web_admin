@@ -29,4 +29,27 @@ class SessionsRepoImpl  implements SessionsRepo{
       return Left(APIFailure());
     }
   }
+  
+  @override
+  Future<Either<Failure, bool>> actionSession(Tuple2<int, bool> param) async{
+    try{
+      final url = Uri.http(uri, '/sessions/${param.value1}');
+
+      final response = await http.post(
+        url, 
+        headers: {
+          'content-type' : 'application/json'
+        },
+        body: jsonEncode({"enabled" : param.value2})
+      );
+      if(response.statusCode < 200 || response.statusCode >= 300){
+        return Left(APIFailure());
+      }
+      return Right(true);
+
+    }catch(error){
+      print(error);
+      return Left(APIFailure());
+    }
+  }
 }
