@@ -14,6 +14,7 @@ import 'package:web_admin/features/initial_page/data/repositories/excel_repo_imp
 import 'package:web_admin/features/initial_page/domain/repositories/excel_repo.dart';
 import 'package:web_admin/features/initial_page/domain/use_cases/upload_excel_use_case.dart';
 import 'package:web_admin/features/initial_page/presentation/state/initial_page_bloc.dart';
+import 'package:web_admin/features/sessions/presentation/state/sessions_bloc.dart';
 
 final inst = GetIt.instance;
 const uri = "localhost:3000";
@@ -70,4 +71,12 @@ void initDependencies() {
     inst.get<GetEventLogsUseCase>(), 
     inst.get<ConnectLiveLogsUseCase>(), 
   ));
+
+
+
+  //INJECTING SESSIONS DEPENDENCIES
+
+
+  //sessions bloc
+  inst.registerFactory<SessionsBloc>(()=> SessionsBloc());
 }

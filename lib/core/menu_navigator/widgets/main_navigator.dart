@@ -6,8 +6,7 @@ import 'package:web_admin/features/events/presentation/state/events_bloc.dart';
 import 'package:web_admin/features/initial_page/presentation/pages/initial_page.dart';
 import 'package:web_admin/features/initial_page/presentation/state/initial_page_bloc.dart';
 import 'package:web_admin/features/sessions/presentation/pages/sessions_page.dart';
-import 'package:web_admin/features/sessions/presentation/state/new_sessions_bloc.dart';
-import 'package:web_admin/features/sessions/presentation/state/old_sessions_bloc.dart';
+import 'package:web_admin/features/sessions/presentation/state/sessions_bloc.dart';
 
 class MainNavigator extends StatelessWidget{
   final GlobalKey<NavigatorState> _navigatorKey;
@@ -29,16 +28,9 @@ class MainNavigator extends StatelessWidget{
                         ),
                   '/sessions'=> 
                       (BuildContext _) => 
-                        MultiBlocProvider(
-                          providers: [
-                            BlocProvider<NewSessionsBloc> (
-                              create: (context) => GetIt.instance.get<NewSessionsBloc>(),
-                            ),
-                            BlocProvider<OldSessionsBloc> (
-                              create: (context) => GetIt.instance.get<OldSessionsBloc>(),
-                            ),
-                          ], 
-                          child: SessionsPage()
+                        BlocProvider<SessionsBloc> (
+                          create: (context) => GetIt.instance.get<SessionsBloc>(),
+                          child: SessionsPage(),
                         ),
                   //default case
                   _=>
