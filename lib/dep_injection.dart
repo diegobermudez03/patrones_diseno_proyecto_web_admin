@@ -14,6 +14,9 @@ import 'package:web_admin/features/initial_page/data/repositories/excel_repo_imp
 import 'package:web_admin/features/initial_page/domain/repositories/excel_repo.dart';
 import 'package:web_admin/features/initial_page/domain/use_cases/upload_excel_use_case.dart';
 import 'package:web_admin/features/initial_page/presentation/state/initial_page_bloc.dart';
+import 'package:web_admin/features/sessions/data/repositories/sessions_repo_impl.dart';
+import 'package:web_admin/features/sessions/domain/repositories/sessions_repo.dart';
+import 'package:web_admin/features/sessions/domain/use_cases/get_sessions_use_case.dart';
 import 'package:web_admin/features/sessions/presentation/state/sessions_bloc.dart';
 
 final inst = GetIt.instance;
@@ -75,8 +78,16 @@ void initDependencies() {
 
 
   //INJECTING SESSIONS DEPENDENCIES
+  //sessions repo
+  inst.registerLazySingleton<SessionsRepo>(()=> SessionsRepoImpl(uri));
 
+  //sessions use cases
+  inst.registerLazySingleton<GetSessionsUseCase>(()=> GetSessionsUseCase(
+    inst.get<SessionsRepo>()
+  ));
 
   //sessions bloc
-  inst.registerFactory<SessionsBloc>(()=> SessionsBloc());
+  inst.registerFactory<SessionsBloc>(()=> SessionsBloc(
+    inst.get<GetSessionsUseCase>()
+  ));
 }

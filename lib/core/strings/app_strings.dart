@@ -33,4 +33,10 @@ class AppStrings{
   static const errorRetrievingUsers = "Hubo un error obteniendo los usuarios";
   static const mustSelectFile = "Debes seleccionar un archivo Excel";
   static const sessions = "Sesiones";
+  static const disable = "Desactivar";
+  static const wantsToLinkWithA = "quiere vincularse con un";
+  static const enable = "Activar";
+  static const requests = "Solicitudes";
+  static const activeSessions = "Sesiones activas";
+  static const model = "Modelo";
 }
