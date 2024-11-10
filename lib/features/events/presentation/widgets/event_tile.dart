@@ -15,7 +15,6 @@ class EventTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final fieldWidth = (MediaQuery.of(context).size.width - 300) / 5.5; // Divide screen into parts
 
     return Card(
       color: colorScheme.surface,

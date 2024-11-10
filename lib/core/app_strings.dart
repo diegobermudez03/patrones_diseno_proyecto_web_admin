@@ -56,4 +56,30 @@ class AppStrings{
   static const rowsUploadedSuccesfully = "Filas subidas exitosamente";
   static const outside = "Afuera";
   static const inside = "Adentro";
+  static const noLogs = "No hay actividad";
+  static const liveLogs ="Logs en vivo";
+  static const  userList ="Lista de usuarios";
+  static const users = "Usuarios";
+
+  static const noBookingsAvailable = "No hay reservas disponibles";
+  static const bookingsList = "Lista de reservaciones";
+  static const activeSession ="Sesion activa";
+  static const noActiveSessions = "No hay sesiones activas";
+  static const noRequests = "No hay peticiones disponibles";
+  static const disabledSessions ="Sesiones desactivadas";
+  static const enabledSessions = "Sesiones activas";
+  static const sessionsOverview = "Revision de sesiones";
+
+  static const uploadData = "Subir datos";
+
+  static const welcomeTo = "Bienvenido a";
+
+  static const ourFeatures = "Nuestras funcionalidades";
+  static const analytics = "Analiticas";
+  static const getInfonAnalitycs = "Obten informacion valiosa y relevante sobre tus eventos";
+  static const easyUpload = "Facilidad de subida";
+  static const easyUploadDesc = "Sube la informacion de tus eventos y reservaciones facilmente desde un Excel";
+  static const secureAccess = "Acceso seguro";
+  static const secureAccessDesc = "Ten el control de los usuarios registrados y desde donde acceden";
+  static const pickExcel = "Seleccionar Excel";
 }

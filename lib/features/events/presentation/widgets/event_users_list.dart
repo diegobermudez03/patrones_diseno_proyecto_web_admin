@@ -25,16 +25,16 @@ class EventUsersList extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [colorScheme.surfaceContainer, colorScheme.surface],
+          colors: [colorScheme.surface, colorScheme.surface],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: colorScheme.shadow.withOpacity(0.2),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
+            color: colorScheme.shadow.withOpacity(0.5),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
           ),
         ],
       ),

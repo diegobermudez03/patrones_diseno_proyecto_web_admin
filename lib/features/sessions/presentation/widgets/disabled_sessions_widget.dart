@@ -7,7 +7,7 @@ class DisabledSessionsWidget extends StatelessWidget {
   final List<SessionEntity> sessions;
   final void Function(int, bool) callback;
 
-  DisabledSessionsWidget({
+  const DisabledSessionsWidget({
     super.key,
     required this.sessions,
     required this.callback,
@@ -19,43 +19,76 @@ class DisabledSessionsWidget extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.all(16),
-      margin: const EdgeInsets.all(8),
+      margin: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: theme.surface,
-        borderRadius: BorderRadius.circular(12),
+        gradient: LinearGradient(
+          colors: [theme.surfaceContainer, theme.surface],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: theme.shadow.withOpacity(0.1),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
+            color: theme.shadow.withOpacity(0.15),
+            blurRadius: 12,
+            offset: const Offset(0, 6),
           ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Section Title
-          Center(
-            child: Text(
-              AppStrings.requests,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: theme.onSurface,
+          // Centered Title with Icon
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.request_page,
+                color: theme.primary,
+                size: 26,
               ),
-            ),
+              const SizedBox(width: 8),
+              Text(
+                AppStrings.requests,
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: theme.onSurface,
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 16),
+
           // Scrollable List of DisabledSessionTile
-          SingleChildScrollView(
-            child: Column(
-              children: sessions
-                  .map((s) => DisabledSessionTile(
-                        session: s,
-                        callback: callback,
-                      ))
-                  .toList(),
-            ),
+          Expanded(
+            child: sessions.isNotEmpty
+                ? ListView.builder(
+                    itemCount: sessions.length,
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: DisabledSessionTile(
+                          session: sessions[index],
+                          callback: callback,
+                        ),
+                      );
+                    },
+                  )
+                : Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(
+                        AppStrings.noRequests,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: theme.onSurfaceVariant,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                    ),
+                  ),
           ),
         ],
       ),

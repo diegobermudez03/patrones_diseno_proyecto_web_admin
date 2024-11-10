@@ -19,10 +19,15 @@ class SessionsPage extends StatelessWidget {
         backgroundColor: theme.primary,
         title: Text(
           AppStrings.sessions,
-          style: TextStyle(color: theme.onPrimary),
+          style: TextStyle(
+            color: theme.onPrimary,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
         ),
         centerTitle: true,
-        elevation: 0,
+        elevation: 4,
+        leading: const Icon(Icons.security), // Add a relevant icon
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -39,7 +44,7 @@ class SessionsPage extends StatelessWidget {
             SessionsRetrievingFailure() => Center(
                   child: Text(
                     AppStrings.apiError,
-                    style: TextStyle(color: theme.error),
+                    style: TextStyle(color: theme.error, fontSize: 16, fontStyle: FontStyle.italic),
                   ),
                 ),
             SessionsState _ => const Center(child: CircularProgressIndicator()),
@@ -51,7 +56,7 @@ class SessionsPage extends StatelessWidget {
             SessionsRetrievingFailure() => Center(
                   child: Text(
                     AppStrings.apiError,
-                    style: TextStyle(color: theme.error),
+                    style: TextStyle(color: theme.error, fontSize: 16, fontStyle: FontStyle.italic),
                   ),
                 ),
             SessionsState _ => const Center(child: CircularProgressIndicator()),
@@ -60,38 +65,134 @@ class SessionsPage extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Dashboard Header
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text(
-                  AppStrings.sessions,
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: theme.onSurface,
+              // Custom Decorative Banner / Header
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [theme.primary.withOpacity(0.8), theme.secondary.withOpacity(0.8)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                   ),
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: theme.shadow.withOpacity(0.3),
+                      blurRadius: 8,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.view_list,
+                      color: Colors.white,
+                      size: 28,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      AppStrings.sessionsOverview,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 16),
-              // Dashboard Content
+
+              // Main Content - Split View of Sessions
               Expanded(
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Enabled Sessions Widget
+                    // Enabled Sessions
                     Expanded(
                       flex: 3,
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: enabledSessions,
+                      child: Container(
+                        padding: const EdgeInsets.all(12.0),
+                        decoration: BoxDecoration(
+                          color: theme.surfaceContainerLowest,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: theme.outlineVariant),
+                          boxShadow: [
+                            BoxShadow(
+                              color: theme.shadow.withOpacity(0.2),
+                              blurRadius: 8,
+                              offset: const Offset(0, 6),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(Icons.check_circle, color: theme.primary, size: 20),
+                                const SizedBox(width: 6),
+                                Text(
+                                  AppStrings.enabledSessions,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: theme.onSurface,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Divider(),
+                            Expanded(
+                              child: enabledSessions,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    // Disabled Sessions Widget
+                    const SizedBox(width: 16),
+
+                    // Disabled Sessions
                     Expanded(
                       flex: 2,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: disabledSessions,
+                      child: Container(
+                        padding: const EdgeInsets.all(12.0),
+                        decoration: BoxDecoration(
+                          color: theme.surfaceContainerLowest,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: theme.outlineVariant),
+                          boxShadow: [
+                            BoxShadow(
+                              color: theme.shadow.withOpacity(0.2),
+                              blurRadius: 8,
+                              offset: const Offset(0, 6),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(Icons.link_off, color: theme.error, size: 20),
+                                const SizedBox(width: 6),
+                                Text(
+                                  AppStrings.disabledSessions,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: theme.onSurface,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Divider(),
+                            Expanded(
+                              child: disabledSessions,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],

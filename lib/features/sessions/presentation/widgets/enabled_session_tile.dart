@@ -17,63 +17,119 @@ class EnabledSessionTile extends StatelessWidget {
     final theme = Theme.of(context).colorScheme;
 
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+      padding: const EdgeInsets.all(12.0),
+      margin: const EdgeInsets.symmetric(vertical: 8.0), // Space between tiles
       decoration: BoxDecoration(
         color: theme.surface,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: theme.shadow.withOpacity(0.1),
-            blurRadius: 6,
-            offset: const Offset(0, 3),
+            color: theme.shadow.withOpacity(0.15),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
           ),
         ],
+        border: Border.all(color: theme.outlineVariant, width: 1),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Email Column
-          Expanded(
-            flex: 2,
-            child: Text(
-              session.user.email,
-              style: TextStyle(color: theme.onSurface, fontSize: 14),
-              textAlign: TextAlign.center,
+          // Icon / Image for the session (Profile Icon Placeholder)
+          Padding(
+            padding: const EdgeInsets.only(right: 12.0),
+            child: CircleAvatar(
+              backgroundColor: theme.primaryContainer.withOpacity(0.5),
+              child: Icon(
+                Icons.smartphone, // Represents the device (change icon if needed)
+                color: theme.onPrimaryContainer,
+              ),
             ),
           ),
-          // Number Column
+          // User Information Columns
           Expanded(
-            flex: 1,
-            child: Text(
-              session.user.number,
-              style: TextStyle(color: theme.onSurface, fontSize: 14),
-              textAlign: TextAlign.center,
+            flex: 2,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  session.user.email,
+                  style: TextStyle(
+                    color: theme.onSurface,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  session.user.number,
+                  style: TextStyle(
+                    color: theme.onSurfaceVariant,
+                    fontSize: 12,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
             ),
           ),
           // Phone Model Column
           Expanded(
-            flex: 2,
-            child: Text(
-              session.phone_model,
-              style: TextStyle(color: theme.onSurface, fontSize: 14),
-              textAlign: TextAlign.center,
+            flex: 3,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  session.phone_model,
+                  style: TextStyle(
+                    color: theme.onSurface,
+                    fontSize: 14,
+                    fontStyle: FontStyle.italic,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 4),
+                // Status Tag
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: theme.primary.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    AppStrings.activeSession,
+                    style: TextStyle(
+                      color: theme.primary,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           // Disable Button
           Expanded(
             flex: 1,
-            child: TextButton(
+            child: ElevatedButton(
               onPressed: () => callback(session.id, false),
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.red,
-                foregroundColor: Colors.white,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: theme.error,
+                foregroundColor: theme.onError,
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
-                padding: const EdgeInsets.symmetric(vertical: 8),
               ),
-              child: const Text(
-                AppStrings.disable,
-                style: TextStyle(fontWeight: FontWeight.bold),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.block, size: 16),
+                  const SizedBox(width: 4),
+                  Text(
+                    AppStrings.disable,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
             ),
           ),

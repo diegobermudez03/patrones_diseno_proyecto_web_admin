@@ -18,52 +18,88 @@ class DisabledSessionTile extends StatelessWidget {
     final String sentence = '${session.user.email} ${AppStrings.wantsToLinkWithA} ${session.phone_model}';
 
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      margin: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color: theme.surface,
-        borderRadius: BorderRadius.circular(12),
+        gradient: LinearGradient(
+          colors: [theme.surfaceContainerLowest, theme.surfaceContainerLowest],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: theme.shadow.withOpacity(0.1),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
+            color: theme.shadow.withOpacity(0.2),
+            blurRadius: 10,
+            offset: const Offset(0, 6),
           ),
         ],
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Icon on the left side
-          Icon(
-            Icons.link_off,
-            color: theme.onSurfaceVariant,
-            size: 32,
+          // Prominent Icon on the left side
+          Container(
+            padding: const EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              color: theme.errorContainer.withOpacity(0.3),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              Icons.link_off,
+              color: theme.error,
+              size: 32,
+            ),
           ),
-          const SizedBox(width: 12),
-          
-          // Text content
+          const SizedBox(width: 16),
+
+          // Text content with formatted display
           Expanded(
-            child: Text(
-              sentence,
-              style: TextStyle(
-                color: theme.onSurface,
-                fontSize: 16,
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  session.user.email,
+                  style: TextStyle(
+                    color: theme.primary,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  AppStrings.wantsToLinkWithA,
+                  style: TextStyle(
+                    color: theme.onSurfaceVariant,
+                    fontSize: 14,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  session.phone_model,
+                  style: TextStyle(
+                    color: theme.secondary,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                  ),
+                ),
+              ],
             ),
           ),
-          
-          // Enable button
-          TextButton(
+
+          // Enable button with a prominent style
+          ElevatedButton.icon(
             onPressed: () => callback(session.id, true),
-            style: TextButton.styleFrom(
-              backgroundColor: Colors.green,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: theme.primary,
+              foregroundColor: theme.onPrimary,
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(12),
               ),
             ),
-            child: Text(
+            icon: const Icon(Icons.check_circle, size: 20),
+            label: Text(
               AppStrings.enable,
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),

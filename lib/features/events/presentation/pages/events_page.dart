@@ -19,7 +19,15 @@ class EventsPage extends StatelessWidget {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: getAppBar(),
+      appBar: AppBar(
+        backgroundColor: colorScheme.primary, // Match AppBar color to sessions page
+        title: Text(
+          AppStrings.events,
+          style: TextStyle(color: colorScheme.onPrimary, fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
+        elevation: 0,
+      ),
       backgroundColor: colorScheme.surfaceContainerHigh,
       body: Padding(
         padding: const EdgeInsets.all(16.0),

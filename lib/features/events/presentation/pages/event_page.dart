@@ -19,114 +19,184 @@ class EventPage extends StatelessWidget {
 
     return Scaffold(
       appBar: getAppBar(),
-      backgroundColor: colorScheme.surfaceBright, // Use surfaceBright as the main background color
-      body: Padding(
-        padding: const EdgeInsets.all(16.0), // Add some padding for the screen's content
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            // Left side: User list (table)
-            Expanded(
-              flex: 3,
-              child: BlocBuilder<EventBloc, EventState>(
-                builder: (context, state) {
-                  final provider = BlocProvider.of<EventBloc>(context);
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [colorScheme.surfaceContainerLowest, colorScheme.surfaceContainerLowest],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // User List Panel (Left Side)
+              Expanded(
+                flex: 3,
+                child: BlocBuilder<EventBloc, EventState>(
+                  builder: (context, state) {
+                    final provider = BlocProvider.of<EventBloc>(context);
 
-                  if (state is EventInitialState) {
-                    provider.searchEvent(eventId);
-                  }
+                    if (state is EventInitialState) {
+                      provider.searchEvent(eventId);
+                    }
 
-                  if (state is EventUsersInvitedState || state is EventUserInvitedState) {
-                    String phrase = switch (state) {
-                      EventUsersInvitedState s => '${s.nInvited} ${AppStrings.nUsersInvited}',
-                      EventUserInvitedState s => '${s.email} ${AppStrings.hasBeenInvited}',
-                      EventState() => '',
-                    };
+                    if (state is EventUsersInvitedState || state is EventUserInvitedState) {
+                      String phrase = switch (state) {
+                        EventUsersInvitedState s => '${s.nInvited} ${AppStrings.nUsersInvited}',
+                        EventUserInvitedState s => '${s.email} ${AppStrings.hasBeenInvited}',
+                        EventState() => '',
+                      };
 
-                    Future.microtask(() {
-                      showDialog(
-                        context: context,
-                        builder: (subContext) {
-                          return AlertDialog(
-                            backgroundColor: colorScheme.surfaceContainer, // Dialog background
-                            content: Text(
-                              phrase,
-                              style: TextStyle(color: colorScheme.onSurface), // Dialog text color
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(subContext).pop();
-                                },
-                                child: Text(
-                                  AppStrings.ok,
-                                  style: TextStyle(color: colorScheme.primary), // Button text color
-                                ),
+                      Future.microtask(() {
+                        showDialog(
+                          context: context,
+                          builder: (subContext) {
+                            return AlertDialog(
+                              backgroundColor: colorScheme.surfaceContainer,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
                               ),
-                            ],
-                          );
-                        },
-                      );
-                    });
-                  }
+                              content: Text(
+                                phrase,
+                                style: TextStyle(color: colorScheme.onSurface),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.of(subContext).pop(),
+                                  child: Text(
+                                    AppStrings.ok,
+                                    style: TextStyle(color: colorScheme.primary),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      });
+                    }
 
-                  return switch (state) {
-                    SearchingEventState _ => Center(
-                        child: CircularProgressIndicator(
-                          color: colorScheme.secondary, // Use secondary color for the loading indicator
+                    return switch (state) {
+                      SearchingEventState _ => Center(
+                          child: CircularProgressIndicator(
+                            color: colorScheme.secondary,
+                          ),
                         ),
+                      EventUsersRetrievedState s => _buildSectionWithHeader(
+                        context: context,
+                        title: '${AppStrings.userList} - ${s.users.length} ${AppStrings.users}',
+                        child: EventUsersList(users: s.users, eventId: eventId),
+                        colorScheme: colorScheme,
                       ),
-                    EventUsersRetrievedState s => EventUsersList(users: s.users, eventId: eventId),
-                    EventUsersInvitedState s => EventUsersList(users: s.users, eventId: eventId),
-                    EventUserInvitedState s => EventUsersList(users: s.users, eventId: eventId),
-                    EventFailureState _ => Center(
-                        child: Text(
-                          AppStrings.errorRetrievingUsers,
-                          style: TextStyle(color: colorScheme.error), // Error text color
+                      EventUsersInvitedState s => _buildSectionWithHeader(
+                        context: context,
+                        title: '${AppStrings.userList} - ${s.users.length} ${AppStrings.users}',
+                        child: EventUsersList(users: s.users, eventId: eventId),
+                        colorScheme: colorScheme,
+                      ),
+                      EventUserInvitedState s => _buildSectionWithHeader(
+                        context: context,
+                        title: '${AppStrings.userList} - ${s.users.length} ${AppStrings.users}',
+                        child: EventUsersList(users: s.users, eventId: eventId),
+                        colorScheme: colorScheme,
+                      ),
+                      EventFailureState _ => Center(
+                          child: Text(
+                            AppStrings.errorRetrievingUsers,
+                            style: TextStyle(color: colorScheme.error),
+                          ),
                         ),
-                      ),
-                    EventState _ => Center(
-                        child: CircularProgressIndicator(
-                          color: colorScheme.secondary, // Use secondary color for the loading indicator
+                      EventState _ => Center(
+                          child: CircularProgressIndicator(
+                            color: colorScheme.secondary,
+                          ),
                         ),
-                      ),
-                  };
-                },
+                    };
+                  },
+                ),
               ),
-            ),
-            const SizedBox(width: 10,),
-            // Right side: Logs panel
-            Expanded(
-              flex: 2,
-              child: BlocBuilder<EventLogsBloc, EventLogsState>(
-                builder: (context, state) {
-                  final provider = BlocProvider.of<EventLogsBloc>(context);
+              const SizedBox(width: 16),
 
-                  if (state is EventLogsInitialState) {
-                    provider.searchLogs(eventId);
-                  }
+              // Logs Panel (Right Side)
+              Expanded(
+                flex: 2,
+                child: BlocBuilder<EventLogsBloc, EventLogsState>(
+                  builder: (context, state) {
+                    final provider = BlocProvider.of<EventLogsBloc>(context);
 
-                  return switch (state) {
-                    EventLogsRetrieving _ => Center(
-                        child: CircularProgressIndicator(
-                          color: colorScheme.secondary, // Use secondary color for loading indicator
+                    if (state is EventLogsInitialState) {
+                      provider.searchLogs(eventId);
+                    }
+
+                    return switch (state) {
+                      EventLogsRetrieving _ => Center(
+                          child: CircularProgressIndicator(
+                            color: colorScheme.secondary,
+                          ),
                         ),
+                      EventLogsRetrievedState s => _buildSectionWithHeader(
+                        context: context,
+                        title: AppStrings.liveLogs,
+                        child: LogsPanel(logs: s.logs),
+                        colorScheme: colorScheme,
                       ),
-                    EventLogsRetrievedState s => LogsPanel(logs: s.logs),
-                    EventLogsNewLog s => LogsPanel(logs: s.logs),
-                    EventLogsState _ => Center(
-                        child: CircularProgressIndicator(
-                          color: colorScheme.secondary, // Use secondary color for loading indicator
+                      EventLogsNewLog s => _buildSectionWithHeader(
+                        context: context,
+                        title: AppStrings.liveLogs,
+                        child: LogsPanel(logs: s.logs),
+                        colorScheme: colorScheme,
+                      ),
+                      EventLogsState _ => Center(
+                          child: CircularProgressIndicator(
+                            color: colorScheme.secondary,
+                          ),
                         ),
-                      ),
-                  };
-                },
+                    };
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
+    );
+  }
+
+  // Utility method to add a section with a header
+  Widget _buildSectionWithHeader({
+    required BuildContext context,
+    required String title,
+    required Widget child,
+    required ColorScheme colorScheme,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: Row(
+            children: [
+              Icon(
+                Icons.label,
+                color: colorScheme.primary,
+                size: 20,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: colorScheme.onSurface,
+                ),
+              ),
+            ],
+          ),
+        ),
+        Expanded(child: child),
+      ],
     );
   }
 }
