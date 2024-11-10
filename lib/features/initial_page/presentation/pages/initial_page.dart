@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:web_admin/core/app_strings.dart';
 import 'package:web_admin/features/initial_page/presentation/state/initial_page_bloc.dart';
 import 'package:web_admin/features/initial_page/presentation/state/initial_page_states.dart';
-import 'package:web_admin/shared/widgets/app_bar.dart';
 
 class InitialPage extends StatelessWidget {
   const InitialPage({super.key});
@@ -125,7 +124,7 @@ class InitialPage extends StatelessWidget {
             top: 0,
             bottom: 0,
             child: Opacity(
-              opacity: 0.1,
+              opacity: 0.2,
               child: Image.asset(
                 'assets/images/hero_background.jpg', // Replace with actual image path
                 fit: BoxFit.cover,
@@ -228,9 +227,9 @@ class InitialPage extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: colorScheme.shadow.withOpacity(0.1),
-              blurRadius: 8,
-              offset: const Offset(0, 4),
+              color: colorScheme.shadow.withOpacity(0.3),
+              blurRadius: 5,
+              offset: const Offset(0, 2),
             ),
           ],
         ),

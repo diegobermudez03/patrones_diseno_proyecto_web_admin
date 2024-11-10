@@ -9,7 +9,6 @@ import 'package:web_admin/features/events/presentation/state/event_logs_bloc.dar
 import 'package:web_admin/features/events/presentation/state/events_bloc.dart';
 import 'package:web_admin/features/events/presentation/state/events_states.dart';
 import 'package:web_admin/features/events/presentation/widgets/event_tile.dart';
-import 'package:web_admin/shared/widgets/app_bar.dart';
 
 class EventsPage extends StatelessWidget {
   const EventsPage({super.key});

@@ -39,7 +39,7 @@ class BookingsBloc extends Cubit<BookingsState>{
       BookingsState() => []
     };
 
-    final email = bookings.where((oc)=>oc.booking?.id == bookingId).first.user.email;
+    final email = bookings.where((oc)=>oc.occasionId == bookingId).first.user.email;
 
     getBookings(successInviting, !successInviting, email);
   }

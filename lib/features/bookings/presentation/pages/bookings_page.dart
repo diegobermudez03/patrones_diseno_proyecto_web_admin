@@ -8,7 +8,6 @@ import 'package:web_admin/features/bookings/presentation/state/bookings_live_sta
 import 'package:web_admin/features/bookings/presentation/state/bookings_states.dart';
 import 'package:web_admin/features/bookings/presentation/widgets/bookings_table.dart';
 import 'package:web_admin/features/bookings/presentation/widgets/bookings_logs_panel.dart';
-import 'package:web_admin/shared/widgets/app_bar.dart';
 
 class BookingsPage extends StatelessWidget {
   @override

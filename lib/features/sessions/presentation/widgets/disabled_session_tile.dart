@@ -15,7 +15,6 @@ class DisabledSessionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).colorScheme;
-    final String sentence = '${session.user.email} ${AppStrings.wantsToLinkWithA} ${session.phone_model}';
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),

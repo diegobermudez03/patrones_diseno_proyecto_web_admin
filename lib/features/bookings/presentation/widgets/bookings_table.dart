@@ -153,7 +153,7 @@ class BookingsTable extends StatelessWidget {
           Expanded(child: _buildCellText(book.booking!.address, colorScheme.onSurface)),
           Expanded(child: _buildCellText('${_formatDate(book.booking!.entryDate)}', colorScheme.onSurfaceVariant)),
           Expanded(child: _buildCellText('${_formatDate(book.booking!.exitDate)}', colorScheme.onSurfaceVariant)),
-          _buildAction(book.state.stateName, context, book.booking!.id, colorScheme),
+          _buildAction(book.state.stateName, context, book.occasionId, colorScheme),
         ],
       ),
     );

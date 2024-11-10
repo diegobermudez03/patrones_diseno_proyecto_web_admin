@@ -37,7 +37,7 @@ class BookingsRepoImpl implements BookingsRepo{
   @override
   Future<Either<Failure, int>> inviteBooking(int id)async{
     try{
-      final url = Uri.parse('$uri/bookings/$id/invite');
+      final url = Uri.parse('$uri/bookings/invite/$id');
 
       final response = await http.post(
         url,
@@ -80,7 +80,9 @@ class BookingsRepoImpl implements BookingsRepo{
       final channel = WebSocketChannel.connect(
         Uri.parse('ws://$wsUri/ws/bookings'), 
       );
+      print("hereeeeeeeeeeee");
       await for(final message in channel.stream){
+        print("obtained");
         yield jsonToEventLogEntity( jsonDecode(message));
       }
     }catch(error){
