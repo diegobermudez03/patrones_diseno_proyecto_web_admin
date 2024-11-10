@@ -15,7 +15,7 @@ class ExcelRepoImpl implements ExcelRepo{
   @override
   Future<Either<Failure, int>> uploadExcel(Uint8List file) async{
     try{
-      final url = Uri.http(uri, '/occasions');
+      final url = Uri.http('$uri/occasions');
       final request = http.MultipartRequest("POST", url);
 
       request.files.add(

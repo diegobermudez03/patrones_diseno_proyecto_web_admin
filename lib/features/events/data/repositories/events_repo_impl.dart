@@ -21,7 +21,7 @@ class EventsRepoImpl implements EventsRepo{
   @override
   Future<Either<Failure, List<EventEntity>>> getAllEvents() async{
     try{
-      final url = Uri.http(uri, '/events');
+      final url = Uri.parse('$uri/events');
       final response = await http.get(url);
       if(response.statusCode < 200 || response.statusCode >= 300){
         return Left(APIFailure());
@@ -39,7 +39,7 @@ class EventsRepoImpl implements EventsRepo{
   @override
   Future<Either<Failure, List<OccasionEntity>>> getOccasionsFromEvent(int eventId) async{
     try{
-      final url = Uri.http(uri, '/events/$eventId');
+      final url = Uri.parse('$uri/events/$eventId');
       final response = await http.get(url);
       if(response.statusCode < 200 || response.statusCode >= 300){
         return Left(APIFailure());
@@ -56,7 +56,7 @@ class EventsRepoImpl implements EventsRepo{
   @override
   Future<Either<Failure, List<EventLogEntity>>> getAllLogs(int eventId) async{
     try{
-      final url = Uri.http(uri, '/logs/events/$eventId');
+      final url = Uri.parse('$uri/logs/events/$eventId');
       final response = await http.get(url);
       if(response.statusCode < 200 || response.statusCode >= 300){
         return Left(APIFailure());
@@ -73,7 +73,7 @@ class EventsRepoImpl implements EventsRepo{
   @override
   Future<Either<Failure, int>> inviteUserToEvent(int eventId, int occasionId) async{
     try{
-      final url = Uri.http(uri, '/events/$eventId/invite');
+      final url = Uri.parse('$uri/events/$eventId/invite');
 
       Map<String, dynamic> body = {
         "user_x_event" : [occasionId]
@@ -101,7 +101,7 @@ class EventsRepoImpl implements EventsRepo{
   @override
   Future<Either<Failure, int>> inviteAllUsers(int eventId) async {
     try{
-      final url = Uri.http(uri, '/events/$eventId/invite/all');
+      final url = Uri.parse('$uri/events/$eventId/invite/all');
 
       final response = await http.post(url);
       if(response.statusCode < 200 || response.statusCode >= 300){
@@ -120,8 +120,9 @@ class EventsRepoImpl implements EventsRepo{
   @override
   Stream<EventLogEntity> connectLogs(int eventId)async* {
     try{
+      final String wsUri = uri.split("//")[1];
       final channel = WebSocketChannel.connect(
-        Uri.parse('ws://$uri/ws/events/$eventId'), 
+        Uri.parse('ws://$wsUri/ws/events/$eventId'), 
       );
       await for(final message in channel.stream){
         yield jsonToEventLogEntity( jsonDecode(message));

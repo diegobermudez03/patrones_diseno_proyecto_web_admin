@@ -21,7 +21,7 @@ import 'package:web_admin/features/sessions/domain/use_cases/get_sessions_use_ca
 import 'package:web_admin/features/sessions/presentation/state/sessions_bloc.dart';
 
 final inst = GetIt.instance;
-const uri = "localhost:3000";
+const uri = "http://localhost:3000";
 
 void initDependencies() {
   //INJECTIN INITAL PAGE DEPENDENCIES

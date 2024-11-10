@@ -15,7 +15,7 @@ class SessionsRepoImpl  implements SessionsRepo{
   @override
   Future<Either<Failure, List<SessionEntity>>> getSessions() async{
     try{
-      final url = Uri.http(uri, '/sessions');
+      final url = Uri.http('$uri/sessions');
       final response = await http.get(url);
       if(response.statusCode < 200 || response.statusCode >= 300){
         return Left(APIFailure());
@@ -33,7 +33,7 @@ class SessionsRepoImpl  implements SessionsRepo{
   @override
   Future<Either<Failure, bool>> actionSession(Tuple2<int, bool> param) async{
     try{
-      final url = Uri.http(uri, '/sessions/${param.value1}');
+      final url = Uri.http('$uri/sessions/${param.value1}');
 
       final response = await http.post(
         url, 
@@ -45,7 +45,7 @@ class SessionsRepoImpl  implements SessionsRepo{
       if(response.statusCode < 200 || response.statusCode >= 300){
         return Left(APIFailure());
       }
-      return Right(true);
+      return const Right(true);
 
     }catch(error){
       print(error);
