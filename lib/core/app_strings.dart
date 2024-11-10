@@ -44,4 +44,11 @@ class AppStrings{
   static const requests = "Solicitudes";
   static const activeSessions = "Sesiones activas";
   static const model = "Modelo";
+  static const house = "Casa";
+  static const apartment = "Apartamento";
+  static const residenceType = "Tipo de residencia";
+  static const entryDate = "Fecha entrada";
+  static const exitDate = "Fecha salida";
+  static const bookings = "Reservas";
+  static const errorWithInvitation = "Hubo un error con la ivnitacion";
 }

@@ -17,7 +17,6 @@ class EventUserTile extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final containerWidth = MediaQuery.of(context).size.width * 0.4;
     final fieldWidth = containerWidth / 5.5;
-    final bool isRegistered = user.stateName == AppStrings.registeredState;
 
     return SizedBox(
       width: containerWidth,
@@ -75,18 +74,29 @@ class EventUserTile extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              isRegistered
-                  ? SizedBox(
-                      width: fieldWidth,
-                      child: ActionButton(callback: callback, colorScheme: colorScheme),
-                    )
-                  : SizedBox(width: fieldWidth),
+              _buildAction(user.stateName, fieldWidth, colorScheme)
             ],
           ),
         ),
       ),
     );
   }
+
+  Widget _buildAction(String state, double fieldWidth, ColorScheme colorScheme){
+    if(state == AppStrings.registeredState){
+      return SizedBox(
+                      width: fieldWidth,
+                      child: ActionButton(callback: callback, colorScheme: colorScheme),
+                    );
+    }
+    if(state == AppStrings.invitedState){
+      return Text(AppStrings.invited);
+    }
+    else{
+      return Text(AppStrings.confirmed);
+    }
+  }
+
 }
 
 class ActionButton extends StatelessWidget {

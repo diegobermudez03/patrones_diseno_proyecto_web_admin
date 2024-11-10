@@ -1,4 +1,3 @@
-import 'package:web_admin/features/bookings/domain/entities/booking_entity.dart';
 import 'package:web_admin/shared/entities/occasion_entity.dart';
 
 abstract class BookingsState{}

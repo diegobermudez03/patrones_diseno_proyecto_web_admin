@@ -1,4 +1,9 @@
 import 'package:get_it/get_it.dart';
+import 'package:web_admin/features/bookings/data/repositories/bookings_repo_impl.dart';
+import 'package:web_admin/features/bookings/domain/repositories/bookings_repo.dart';
+import 'package:web_admin/features/bookings/domain/use_cases/get_bookings_use_case.dart';
+import 'package:web_admin/features/bookings/domain/use_cases/invite_booking_use_case.dart';
+import 'package:web_admin/features/bookings/presentation/state/bookings_bloc.dart';
 import 'package:web_admin/features/events/data/repositories/events_repo_impl.dart';
 import 'package:web_admin/features/events/domain/repositories/events_repo.dart';
 import 'package:web_admin/features/events/domain/use_cases/connect_live_logs_use_case.dart';
@@ -77,6 +82,27 @@ void initDependencies() {
   ));
 
 
+  // BOOKING DEPENDENCIES
+  //repo
+  inst.registerLazySingleton<BookingsRepo>(()=>BookingsRepoImpl(uri));
+
+  //use cases
+  inst.registerLazySingleton<InviteBookingUseCase>(()=>InviteBookingUseCase(
+    inst.get()
+  ));
+
+   inst.registerLazySingleton<GetBookingsUseCase>(()=>GetBookingsUseCase(
+    inst.get()
+  ));
+
+  //bloc
+  //bookings bloc
+  inst.registerFactory<BookingsBloc>(()=>BookingsBloc(
+    inst.get(), 
+    inst.get()
+  ));
+
+
 
   //INJECTING SESSIONS DEPENDENCIES
   //sessions repo
@@ -95,4 +121,5 @@ void initDependencies() {
     inst.get<GetSessionsUseCase>(),
     inst.get<ChangeSessionUseCase>(),
   ));
+
 }
