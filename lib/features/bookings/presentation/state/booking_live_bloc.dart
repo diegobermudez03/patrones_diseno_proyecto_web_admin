@@ -7,7 +7,7 @@ import 'package:web_admin/features/events/domain/entities/event_log_entity.dart'
 class BookingLiveBloc extends Cubit<BookingsLiveState>{
 
   final GetBookingLogsUseCase _bookingLogsUseCase;
-  final ConnectLiveLogsUseCase _connectLiveLogsUseCase;
+  final BookingsConnectLiveLogsUseCase _connectLiveLogsUseCase;
 
   BookingLiveBloc(
     this._bookingLogsUseCase,

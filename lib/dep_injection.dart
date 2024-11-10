@@ -1,8 +1,11 @@
 import 'package:get_it/get_it.dart';
 import 'package:web_admin/features/bookings/data/repositories/bookings_repo_impl.dart';
 import 'package:web_admin/features/bookings/domain/repositories/bookings_repo.dart';
+import 'package:web_admin/features/bookings/domain/use_cases/connect_live_logs_use_case.dart';
+import 'package:web_admin/features/bookings/domain/use_cases/get_booking_logs_use_case.dart';
 import 'package:web_admin/features/bookings/domain/use_cases/get_bookings_use_case.dart';
 import 'package:web_admin/features/bookings/domain/use_cases/invite_booking_use_case.dart';
+import 'package:web_admin/features/bookings/presentation/state/booking_live_bloc.dart';
 import 'package:web_admin/features/bookings/presentation/state/bookings_bloc.dart';
 import 'package:web_admin/features/events/data/repositories/events_repo_impl.dart';
 import 'package:web_admin/features/events/domain/repositories/events_repo.dart';
@@ -91,13 +94,27 @@ void initDependencies() {
     inst.get()
   ));
 
-   inst.registerLazySingleton<GetBookingsUseCase>(()=>GetBookingsUseCase(
+  inst.registerLazySingleton<GetBookingsUseCase>(()=>GetBookingsUseCase(
     inst.get()
   ));
+
+  inst.registerLazySingleton<BookingsConnectLiveLogsUseCase>(()=>BookingsConnectLiveLogsUseCase(
+    inst.get()
+  ));
+
+  inst.registerLazySingleton<GetBookingLogsUseCase>(()=>GetBookingLogsUseCase(
+    inst.get()
+  ));
+
 
   //bloc
   //bookings bloc
   inst.registerFactory<BookingsBloc>(()=>BookingsBloc(
+    inst.get(), 
+    inst.get()
+  ));
+
+   inst.registerFactory<BookingLiveBloc>(()=>BookingLiveBloc(
     inst.get(), 
     inst.get()
   ));

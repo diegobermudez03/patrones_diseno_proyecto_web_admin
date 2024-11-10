@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:web_admin/features/bookings/presentation/pages/bookings_page.dart';
+import 'package:web_admin/features/bookings/presentation/state/booking_live_bloc.dart';
 import 'package:web_admin/features/bookings/presentation/state/bookings_bloc.dart';
 import 'package:web_admin/features/events/presentation/pages/events_page.dart';
 import 'package:web_admin/features/events/presentation/state/events_bloc.dart';
@@ -30,9 +31,15 @@ class MainNavigator extends StatelessWidget{
                         ),
                    '/bookings'=>
                       (BuildContext _) => 
-                        BlocProvider<BookingsBloc> (
-                          create: (context) => GetIt.instance.get<BookingsBloc>(),
-                          child: BookingsPage()
+                        MultiBlocProvider(
+                          providers: [
+                            BlocProvider<BookingsBloc> (
+                              create: (context) => GetIt.instance.get<BookingsBloc>(),
+                            ),
+                            BlocProvider<BookingLiveBloc> (
+                              create: (context) => GetIt.instance.get<BookingLiveBloc>(),
+                            )
+                          ], child: BookingsPage()
                         ),
                   '/sessions'=> 
                       (BuildContext _) => 

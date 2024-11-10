@@ -10,6 +10,7 @@ class AppStrings{
   static const address = "Direccion";
   static const apiError = "Lo sentimos, sucedio un error con la API";
   static const errorUploadingExcel = "Hubo un error procesando el archivo Excel";
+  static const description ="Bienvenido a Quickpass, el mejor sistema para el manejo de acceso y salida de usuarios a tus eventos y alojaciones";
 
   static const loadExcel = "Cargar desde Excel";
   static const excelUploaded = "El excel fue subido, se registraron nuevos registros: ";
@@ -51,4 +52,8 @@ class AppStrings{
   static const exitDate = "Fecha salida";
   static const bookings = "Reservas";
   static const errorWithInvitation = "Hubo un error con la ivnitacion";
+  static const success ="Exito";
+  static const rowsUploadedSuccesfully = "Filas subidas exitosamente";
+  static const outside = "Afuera";
+  static const inside = "Adentro";
 }

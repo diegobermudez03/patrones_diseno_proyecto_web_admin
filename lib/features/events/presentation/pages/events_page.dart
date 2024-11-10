@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:web_admin/core/app_strings.dart';
 import 'package:web_admin/features/events/presentation/pages/event_page.dart';
+import 'package:web_admin/features/events/presentation/state/dtos/event_dto.dart';
 import 'package:web_admin/features/events/presentation/state/event_bloc.dart';
 import 'package:web_admin/features/events/presentation/state/event_logs_bloc.dart';
 import 'package:web_admin/features/events/presentation/state/events_bloc.dart';
@@ -19,121 +20,166 @@ class EventsPage extends StatelessWidget {
 
     return Scaffold(
       appBar: getAppBar(),
-      backgroundColor: colorScheme.surfaceBright, // Use surfaceBright for the page background
+      backgroundColor: colorScheme.surfaceContainerHigh,
       body: Padding(
-        padding: const EdgeInsets.all(16.0), // Padding around the content
-        child: BlocBuilder<EventsBloc, EventsState>(
-          builder: (context, state) {
-            const Text appTitle = Text(
-              AppStrings.appTitle,
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Page Title
+            Text(
+              AppStrings.events,
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 28,
                 fontWeight: FontWeight.bold,
+                color: colorScheme.onSurface,
               ),
-            );
-            final provider = BlocProvider.of<EventsBloc>(context);
+            ),
+            const SizedBox(height: 16),
 
-            switch (state) {
-              case EventsRetrievingState _:
-                return Column(
-                  children: [
-                    appTitle,
-                    const SizedBox(height: 20), // Space between title and loader
-                    Center(
-                      child: CircularProgressIndicator(
-                        color: colorScheme.secondary, // Use secondary color for loading
-                      ),
-                    ),
-                  ],
-                );
-              case EventsRetrievedState eventsState:
-                {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      appTitle,
-                      const SizedBox(height: 16),
-                      // Table headers
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              AppStrings.name,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: colorScheme.onSurface, // Header text color
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              AppStrings.startDate,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: colorScheme.onSurface, // Header text color
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              AppStrings.endDate,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: colorScheme.onSurface, // Header text color
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              AppStrings.address,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: colorScheme.onSurface, // Header text color
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 12),
-                      // Event tiles
-                      Expanded(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: eventsState.events
-                                .map((event) => EventTile(
-                                      event: event,
-                                      callback: () => goToEvent(event.eventId, provider, context),
-                                    ))
-                                .toList(),
+            // Search Bar or Filter (Optional)
+            _buildSearchBar(context, colorScheme),
+
+            const SizedBox(height: 16),
+
+            // Bloc Builder for State Management
+            Expanded(
+              child: BlocBuilder<EventsBloc, EventsState>(
+                builder: (context, state) {
+                  final provider = BlocProvider.of<EventsBloc>(context);
+
+                  switch (state) {
+                    case EventsRetrievingState _:
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: colorScheme.secondary,
+                        ),
+                      );
+
+                    case EventsRetrievedState eventsState:
+                      return _buildEventTable(eventsState.events, provider, context, colorScheme);
+
+                    case EventsRetrievingError _:
+                      return Center(
+                        child: Text(
+                          AppStrings.apiError,
+                          style: TextStyle(
+                            color: colorScheme.error,
+                            fontSize: 16,
                           ),
                         ),
-                      ),
-                    ],
-                  );
-                }
-              case EventsRetrievingError _:
-                return Center(
-                  child: Text(
-                    AppStrings.apiError,
-                    style: TextStyle(
-                      color: colorScheme.error, // Use error color for error messages
-                    ),
-                  ),
-                );
-              case EventsInitialState():
-                {
-                  provider.getEvents();
-                  return Container(); // Empty state
-                }
-            }
-          },
+                      );
+
+                    case EventsInitialState():
+                      provider.getEvents();
+                      return Container(); // Empty state
+                  }
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  void goToEvent(int eventId, EventsBloc provider, BuildContext context) {
+  Widget _buildSearchBar(BuildContext context, ColorScheme colorScheme) {
+    return TextField(
+      decoration: InputDecoration(
+        prefixIcon: Icon(Icons.search, color: colorScheme.primary),
+        hintText: 'Search events...',
+        filled: true,
+        fillColor: colorScheme.surface,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide.none,
+        ),
+        contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      ),
+      onChanged: (query) {
+        // Implement search or filter logic if needed
+      },
+    );
+  }
+
+  Widget _buildEventTable(
+    List<EventDTO> events,
+    EventsBloc provider,
+    BuildContext context,
+    ColorScheme colorScheme,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Table Headers with Icons
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Row(
+            children: [
+              Expanded(
+                child: Row(
+                  children: [
+                    Icon(Icons.event, color: colorScheme.primary, size: 18),
+                    const SizedBox(width: 4),
+                    Text(
+                      AppStrings.name,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: colorScheme.onSurface,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+             
+             
+              Expanded(
+                child: Row(
+                  children: [
+                    Icon(Icons.location_on, color: colorScheme.primary, size: 18),
+                    const SizedBox(width: 4),
+                    Text(
+                      AppStrings.address,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: colorScheme.onSurface,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(width: 120), // Space for the action button
+            ],
+          ),
+        ),
+        const Divider(),
+
+        // Table Content
+        Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              children: events
+                  .map(
+                    (event) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: EventTile(
+                          event: event,
+                          callback: () => _goToEvent(event.eventId, provider, context),
+                        ),
+                      ),
+                    ),
+                  )
+                  .toList(),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _goToEvent(int eventId, EventsBloc provider, BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => MultiBlocProvider(
         providers: [

@@ -15,83 +15,128 @@ class EventTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final fieldWidth = (MediaQuery.of(context).size.width-300) / 5.5; // Divide screen into 5 equal parts
+    final fieldWidth = (MediaQuery.of(context).size.width - 300) / 5.5; // Divide screen into parts
 
     return Card(
-      color: colorScheme.surfaceContainer, // Use surfaceContainer for the tile background
-      elevation: 2,
-      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16), // Spacing around the tile
+      color: colorScheme.surface,
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: Padding(
-        padding: const EdgeInsets.all(12), // Padding inside the tile
+        padding: const EdgeInsets.all(16),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Event Name
-            SizedBox(
-              width: fieldWidth,
-              child: Text(
-                event.eventName,
-                style: TextStyle(
-                  color: colorScheme.onSurface, // Text color
-                  fontWeight: FontWeight.bold,
-                ),
-                overflow: TextOverflow.ellipsis,
+            // Event Icon with Background Circle
+            Container(
+              height: 48,
+              width: 48,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: colorScheme.primaryContainer.withOpacity(0.2),
+              ),
+              child: Icon(
+                Icons.event,
+                color: colorScheme.primary,
+                size: 28,
               ),
             ),
+            const SizedBox(width: 16),
 
-            // Start Date
-            SizedBox(
-              width: fieldWidth,
-              child: Text(
-                event.startDate.toString(),
-                style: TextStyle(
-                  color: colorScheme.onSurfaceVariant, // Subtle color for date
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-
-            // End Date
-            SizedBox(
-              width: fieldWidth,
-              child: Text(
-                event.endDate.toString(),
-                style: TextStyle(
-                  color: colorScheme.onSurfaceVariant,
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-
-            // Address
-            SizedBox(
-              width: fieldWidth,
-              child: Text(
-                event.address,
-                style: TextStyle(
-                  color: colorScheme.onSurfaceVariant, // Use tertiary color for the address
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-
-            // Open Event Button
-            SizedBox(
-              width: fieldWidth,
-              child: TextButton(
-                onPressed: callback,
-                style: TextButton.styleFrom(
-                  backgroundColor: colorScheme.primaryContainer, // Use primary container for button background
-                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(6),
+            // Event Details Column
+            Expanded(
+              flex: 2,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    event.eventName,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: colorScheme.onSurface,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
-                child: Text(
-                  AppStrings.openEvent,
-                  style: TextStyle(
-                    color: colorScheme.onPrimaryContainer, // Text color on the button
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.date_range,
+                        color: colorScheme.primary.withOpacity(0.7),
+                        size: 16,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        '${_formatDate(event.startDate)} - ${_formatDate(event.endDate)}',
+                        style: TextStyle(
+                          color: colorScheme.onSurfaceVariant,
+                          fontSize: 14,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
                   ),
+                ],
+              ),
+            ),
+
+            // Address Section
+            Expanded(
+              flex: 2,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Location',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 12,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    event.address,
+                    style: TextStyle(
+                      color: colorScheme.onSurfaceVariant,
+                      fontSize: 14,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+
+            // Divider
+            Container(
+              height: 48,
+              width: 1,
+              color: colorScheme.outlineVariant.withOpacity(0.3),
+              margin: const EdgeInsets.symmetric(horizontal: 12),
+            ),
+
+            // Open Event Button with Icon
+            TextButton.icon(
+              onPressed: callback,
+              style: TextButton.styleFrom(
+                backgroundColor: colorScheme.secondaryContainer,
+                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              icon: Icon(
+                Icons.open_in_new,
+                color: colorScheme.onSecondaryContainer,
+                size: 20,
+              ),
+              label: Text(
+                AppStrings.openEvent,
+                style: TextStyle(
+                  color: colorScheme.onSecondaryContainer,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
@@ -99,5 +144,10 @@ class EventTile extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  // Helper method to format dates (assuming DateTime type)
+  String _formatDate(DateTime date) {
+    return '${date.day}/${date.month}/${date.year}'; // Customize as needed
   }
 }

@@ -24,117 +24,127 @@ class EventUsersList extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color: colorScheme.surface, // General surface color for the widget
-        borderRadius: BorderRadius.circular(12),
+        gradient: LinearGradient(
+          colors: [colorScheme.surfaceContainer, colorScheme.surface],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: colorScheme.shadow, // Shadow color for depth
+            color: colorScheme.shadow.withOpacity(0.2),
             blurRadius: 8,
-            offset: const Offset(0, 2),
+            offset: const Offset(0, 4),
           ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Title Row
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                AppStrings.registered,
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: colorScheme.onSurface, // Text color on surface
+          // Title and Invite Button Row
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Title with Icon
+                Row(
+                  children: [
+                    Icon(
+                      Icons.people,
+                      color: colorScheme.primary,
+                      size: 24,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      AppStrings.registered,
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: colorScheme.onSurface,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              ElevatedButton(
-                onPressed: () => inviteAll(context, eventId),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: colorScheme.secondary, // Button with secondary color
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                ),
-                child: Text(
-                  AppStrings.inviteRemaining,
-                  style: TextStyle(color: colorScheme.onSecondary), // OnSecondary for text
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
 
-          // Header Row for Field Titles
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                width: fieldWidth,
-                child: Text(
-                  AppStrings.email,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: colorScheme.onSurfaceVariant, // Use onSurfaceVariant for header text
+                // Invite All Button
+                ElevatedButton.icon(
+                  onPressed: () => inviteAll(context, eventId),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: colorScheme.secondary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  ),
+                  icon: Icon(Icons.send, color: colorScheme.onSecondary, size: 20),
+                  label: Text(
+                    AppStrings.inviteRemaining,
+                    style: TextStyle(color: colorScheme.onSecondary),
                   ),
                 ),
-              ),
-              Container(
-                width: fieldWidth,
-                child: Text(
-                  AppStrings.phone,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: colorScheme.onSurfaceVariant,
-                  ),
-                ),
-              ),
-              Container(
-                width: fieldWidth,
-                child: Text(
-                  AppStrings.state,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: colorScheme.onSurfaceVariant,
-                  ),
-                ),
-              ),
-              Container(
-                width: fieldWidth,
-                child: Text(
-                  AppStrings.currentState,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: colorScheme.onSurfaceVariant,
-                  ),
-                ),
-              ),
-              Container(
-                width: fieldWidth,
-                child: Text(
-                  AppStrings.action,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: colorScheme.onSurfaceVariant,
-                  ),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
 
-          // User Data Rows
+          const SizedBox(height: 12),
+
+          // Header Row with Icons and Text
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Row(
+              children: [
+                _buildHeaderCell(AppStrings.email, Icons.email, fieldWidth, colorScheme),
+                _buildHeaderCell(AppStrings.phone, Icons.phone, fieldWidth, colorScheme),
+                _buildHeaderCell(AppStrings.state, Icons.flag, fieldWidth, colorScheme),
+                _buildHeaderCell(AppStrings.currentState, Icons.location_on, fieldWidth, colorScheme),
+                _buildHeaderCell(AppStrings.action, Icons.settings, fieldWidth, colorScheme),
+              ],
+            ),
+          ),
+          const Divider(),
+
+          // User Tiles
           Expanded(
             child: SingleChildScrollView(
               child: Column(
-                children: users.map((user) =>
-                  EventUserTile(
-                    user: user,
-                    callback: () => inviteUser(context, user.occasionId, eventId),
-                  ),
-                ).toList(),
+                children: users
+                    .map(
+                      (user) => Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4.0),
+                        child: EventUserTile(
+                          user: user,
+                          callback: () => inviteUser(context, user.occasionId, eventId),
+                        ),
+                      ),
+                    )
+                    .toList(),
               ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHeaderCell(String label, IconData icon, double width, ColorScheme colorScheme) {
+    return Container(
+      width: width,
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        children: [
+          Icon(
+            icon,
+            color: colorScheme.primary,
+            size: 16,
+          ),
+          const SizedBox(width: 4),
+          Text(
+            label,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: colorScheme.onSurfaceVariant,
+              fontSize: 14,
             ),
           ),
         ],
