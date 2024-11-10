@@ -20,7 +20,12 @@ class AppStrings{
   static const registered = "Registrados";
   static const inviteRemaining = "Invitar no invitados";
   static const invite = "Invitar";
-  static const registeredState = "REGISTRADO";
+  static const registeredState = "registered";
+  static const invitedState = "invited";
+  static const confirmedState = "confirmed";
+  static const invited = "Invitado";
+  static const userRegistered = " Registrado";
+  static const confirmed ="Confirmado";
   static const logHistory = "Historial en vivo";
   static const entered = "ingreso";
   static const exited = "salio";

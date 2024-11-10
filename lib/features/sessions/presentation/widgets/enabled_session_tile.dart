@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:web_admin/core/strings/app_strings.dart';
+import 'package:web_admin/core/app_strings.dart';
 import 'package:web_admin/features/sessions/domain/entities/session_entity.dart';
 
 class EnabledSessionTile extends StatelessWidget {

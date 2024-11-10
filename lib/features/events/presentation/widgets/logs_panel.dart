@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:web_admin/core/strings/app_strings.dart';
+import 'package:web_admin/core/app_strings.dart';
 import 'package:web_admin/features/events/domain/entities/event_log_entity.dart';
 
 class LogsPanel extends StatelessWidget {

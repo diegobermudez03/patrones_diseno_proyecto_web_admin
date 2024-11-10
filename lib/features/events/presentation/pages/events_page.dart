@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:web_admin/core/strings/app_strings.dart';
+import 'package:web_admin/core/app_strings.dart';
 import 'package:web_admin/features/events/presentation/pages/event_page.dart';
 import 'package:web_admin/features/events/presentation/state/event_bloc.dart';
 import 'package:web_admin/features/events/presentation/state/event_logs_bloc.dart';

@@ -1,7 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:web_admin/core/strings/app_strings.dart';
+import 'package:web_admin/core/app_strings.dart';
 import 'package:web_admin/features/initial_page/presentation/state/initial_page_bloc.dart';
 import 'package:web_admin/features/initial_page/presentation/state/initial_page_states.dart';
 import 'package:web_admin/shared/widgets/app_bar.dart';

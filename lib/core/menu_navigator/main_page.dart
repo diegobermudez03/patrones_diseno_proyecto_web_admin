@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_side_menu/flutter_side_menu.dart';
 import 'package:tuple/tuple.dart';
 import 'package:web_admin/core/menu_navigator/widgets/main_navigator.dart';
-import 'package:web_admin/core/strings/app_strings.dart';
+import 'package:web_admin/core/app_strings.dart';
 
 class MainPage extends StatefulWidget {
   final List<Tuple4<int, String, String, Icon>> pages = const [

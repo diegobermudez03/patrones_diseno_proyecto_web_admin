@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:web_admin/core/strings/app_strings.dart';
+import 'package:web_admin/core/app_strings.dart';
 import 'package:web_admin/features/sessions/presentation/state/sessions_bloc.dart';
 import 'package:web_admin/features/sessions/presentation/state/sessions_states.dart';
 import 'package:web_admin/features/sessions/presentation/widgets/enabled_sessions_widget.dart';
