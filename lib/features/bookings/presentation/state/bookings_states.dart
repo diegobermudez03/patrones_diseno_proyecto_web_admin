@@ -12,7 +12,8 @@ class BookingsFailureState extends BookingsState{}
 class BookingsRetrievedState extends BookingsState{
   final List<OccasionEntity> bookings;
   final bool justInvited;
-  final int numberInvited;
+  final bool errorSendingEmail;
+  final String email;
 
-  BookingsRetrievedState(this.bookings, this.justInvited, this.numberInvited);
+  BookingsRetrievedState(this.bookings, this.justInvited,this.errorSendingEmail ,this.email);
 }
